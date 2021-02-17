@@ -1,12 +1,77 @@
-source $VIMRUNTIME/defaults.vim
-
+" Set Courier New as font in gvim (windows)
 if has('gui')
 	if has('win32')
 		set guifont=Courier_New:h11:cANSI:qDRAFT
 	endif
 endif
 
-" Statusline config
+" Plugins {{{1
+" I use Plug for Plugin Management, so, I will check if installed
+" TODO: Detection of Plug
+"if exists('plug#begin')
+        call plug#begin()
+
+        if executable('node')
+                Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        endif
+
+        Plug 'preservim/nerdtree'
+        Plug 'kaicataldo/material.vim', {'branch': 'main'}
+        call plug#end()
+        
+        " Plugin Manager Related stuff
+        if (has('termguicolors'))
+                set termguicolors
+        endif
+
+        let g:material_terminal_italics = 1
+        let g:material_theme_style = 'darker'
+        colorscheme material
+
+"endif
+" }}}
+
+" General config {{{1
+syntax on
+set autoindent 
+set expandtab 
+set tabstop=8
+set number
+set relativenumber
+set noerrorbells
+set foldmethod=marker
+" End General config
+" }}}
+
+" Key mappings {{{1
+if exists(":NERDTreeToggle")
+        nnoremap <C-n> :NERDTreeToggle<CR>
+endif
+
+imap <c-d> <esc>ddi
+imap <c-z> <esc>ui
+
+nnoremap <space> <nop>
+let mapleader="\<Space>"
+
+" Next Tab
+nnoremap <leader>n gt
+" Prev Tab
+nnoremap <leader>b gT
+" Uppercase WORD
+nnoremap <leader>u gUiw
+" Lowercase word
+nnoremap <leader>l guiw
+
+" }}}
+
+" Autocommands {{{1
+
+autocmd FileType make set noexpandtab shiftwidth=9 softtabstop=8
+
+" }}}
+
+" Statusline {{{1
 let g:currentMode = { 
 	\ 'n': 'NORMAL', 
 	\ 'v': 'VISUAL', 
@@ -24,35 +89,4 @@ set statusline+=\
 set statusline+=\|
 set statusline+=\ 
 set statusline+=%{strftime('%H:%M')}\ 
-
-function! Start()
-	if argc() || line2byte('$') != -1 || v:progname !~? '^[-gmnq]\=vim\=x\=\%[\.exe]$' || &insertmode
-        	return
-    	endif
-	" Crear un buffer nuevo
-	enew
-
-	" Opciones para el buffer
-	setlocal
-		\ bufhidden=wipe
-		\ buftype=nofile
-		\ nobuflisted
-		\ nocursorcolumn
-		\ nocursorline
-		\ nolist
-		\ nonumber
-		\ noswapfile
-		\ norelativenumber
-
-	" Escribir un texto en el buffer
-	" https://vi.stackexchange.com/questions/627/how-can-i-change-vims-start-or-intro-screen/715#715
-	call append('$', ' ')
-
-	setlocal nomodifiable nomodified
-
-	nnoremap <buffer><silent> e :enew<CR>
-	nnoremap <buffer><silent> i :enew <bar> startinsert<CR>
-	nnoremap <buffer><silent> o :enew <bar> startinsert<CR>
-endfun
-
-autocmd VimEnter * call Start()
+" }}}
