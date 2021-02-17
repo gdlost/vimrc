@@ -40,6 +40,8 @@ set number
 set relativenumber
 set noerrorbells
 set foldmethod=marker
+set modeline
+set modelines=5
 " End General config
 " }}}
 
