@@ -42,6 +42,16 @@ set noerrorbells
 set foldmethod=marker
 set modeline
 set modelines=5
+
+" >:)
+" https://stackoverflow.com/q/235439/10048162
+" TODO: Check for older vim versions
+if 0
+	set colorcolumn=80
+else
+	match ErrorMsg '\%>80v.\+'
+endif
+	
 " End General config
 " }}}
 
