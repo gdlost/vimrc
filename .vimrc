@@ -91,7 +91,7 @@ let g:currentMode = {
 	\}
 
 set laststatus=2
-set statusline=\ %F\ %y\ 
+set statusline=\ %f\ %y\ 
 
 "Linea/Total (Columna)
 set statusline+=%l\/%L\ (%v)
